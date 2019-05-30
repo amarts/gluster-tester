@@ -76,11 +76,11 @@ def subcmd_run(args):
                   env=test_env
     )
 
-    for num in range(1, args.num_parallel+1):
+    for num in range(1, int(args.num_parallel)+1):
         run_else_ignore("docker kill glusterfs-tester-%d" % num)
         run_else_ignore("docker rm glusterfs-tester-%d" % num)
 
-    for num in range(1, args.num_parallel+1):
+    for num in range(1, int(args.num_parallel)+1):
         logdir = os.path.join(args.logdir, "ld-%d" % num)
         bddir = os.path.join(args.backenddir, "bd-%d" % num)
         imgname = "gluster/glusterfs-tester:latest"
@@ -96,7 +96,7 @@ def subcmd_run(args):
         )
 
     run_cmd = "python %s/run-tests.py --num-parallel %d --logdir %s" % (
-        scriptsdir, args.num_parallel, args.logdir
+        scriptsdir, int(args.num_parallel), args.logdir
     )
     if args.ignore_failure:
         run_cmd += " --ignore-failure"
